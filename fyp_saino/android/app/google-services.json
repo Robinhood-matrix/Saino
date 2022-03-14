@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "568024098793",
+    "project_id": "saino-e45d3",
+    "storage_bucket": "saino-e45d3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568024098793:android:b9fbae627781d8d1c5cd78",
+        "android_client_info": {
+          "package_name": "com.example.fyp_saino"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "568024098793-n85b6280d9sb1s1b2p6nliqignt9dsp3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fyp_saino",
+            "certificate_hash": "5a516275d52938b487243c798329568f8d8a705e"
+          }
+        },
+        {
+          "client_id": "568024098793-8qhq8q86e4scboi6s9lgffuoj97nbpci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIHkgfPYgXbhJbECExZpjrl-cD28mGQw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "568024098793-8qhq8q86e4scboi6s9lgffuoj97nbpci.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
