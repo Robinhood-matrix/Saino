@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fyp_saino/model/user_model.dart';
+
 import 'package:fyp_saino/screens/home_screen.dart';
 import 'package:fyp_saino/screens/login_screen.dart';
 import 'package:fyp_saino/utilities/constants.dart';
@@ -22,8 +19,6 @@ final TextEditingController username = TextEditingController();
 final TextEditingController email = TextEditingController();
 final TextEditingController password = TextEditingController();
 final TextEditingController confirmpassword = TextEditingController();
-
-final _auth = FirebaseAuth.instance;
 
 String errorMessage = "";
 
@@ -227,7 +222,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       padding: const EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () => signUp(email.text, password.text),
+        onPressed: () {},
         style: ElevatedButton.styleFrom(
           primary: Colors.white,
           padding: const EdgeInsets.all(15.0),
@@ -279,22 +274,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
       ),
     );
-  }
-
-  void signUp(String email, String password) async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password)
-            .then((value) {
-          print("Created New Account");
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomeScreen()));
-        });
-      } catch (e) {
-        print(errorMessage);
-      }
-    }
   }
 
   @override

@@ -1,25 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_saino/components/product_card.dart';
+import 'package:fyp_saino/model/product_model.dart';
 import 'package:fyp_saino/utilities/constants.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
-  Widget _buildScrollView(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(
-          height: 40,
-          child: Image.asset(
-            "assets/pictures/ad1.jpg",
-            fit: BoxFit.contain,
-          ),
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,18 +67,46 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
             ),
-            const ExpansionTile(
+            ListTile(
               leading: Icon(FontAwesomeIcons.leaf),
               title: Text('Vegetables'),
+              onTap: () {},
             ),
-            const ExpansionTile(
+            ListTile(
               leading: Icon(FontAwesomeIcons.appleAlt),
               title: Text('Fruits'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(FontAwesomeIcons.wineBottle),
+              title: Text('Dairy'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(FontAwesomeIcons.breadSlice),
+              title: Text('Bread & Bakery'),
+              onTap: () {},
             ),
           ],
         ),
       ),
-      body: buildCarousel(),
+      body: Column(
+        children: [
+          buildCarousel(),
+          Container(child: buildSpecialoffer()),
+          const SizedBox(height: 10),
+          buildPopularProduct()
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.person), label: 'Account'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Setting'),
+        ],
+        selectedItemColor: kPrimaryColor,
+      ),
     );
   }
 
@@ -120,4 +135,164 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget buildSpecialoffer() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                "Special for you",
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                "See More >",
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              SpecialOfferCard(
+                image: "assets/pictures/ad1.jpg",
+                category: "Vegetables",
+                numOfBrands: 18,
+                press: () {},
+              ),
+              SpecialOfferCard(
+                image: "assets/pictures/ad1.jpg",
+                category: "Dairy Products",
+                numOfBrands: 24,
+                press: () {},
+              ),
+              const SizedBox(width: 20),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class SpecialOfferCard extends StatelessWidget {
+  const SpecialOfferCard({
+    Key? key,
+    required this.category,
+    required this.image,
+    required this.numOfBrands,
+    required this.press,
+  }) : super(key: key);
+
+  final String category, image;
+  final int numOfBrands;
+  final GestureTapCallback press;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20),
+      child: GestureDetector(
+        onTap: press,
+        child: SizedBox(
+          width: 242,
+          height: 100,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Stack(
+              children: [
+                Image.asset(
+                  image,
+                  fit: BoxFit.cover,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xFF343434).withOpacity(0.4),
+                        Color(0xFF343434).withOpacity(0.15),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15.0,
+                    vertical: 10.0,
+                  ),
+                  child: Text.rich(
+                    TextSpan(
+                      style: const TextStyle(color: Colors.white),
+                      children: [
+                        TextSpan(
+                          text: "$category\n",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextSpan(text: "$numOfBrands Brands")
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget buildPopularProduct() {
+  return Column(
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              "Popular Products",
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              "See More >",
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 20),
+      SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            ...List.generate(
+              demoProducts.length,
+              (index) {
+                if (demoProducts[index].isPopular)
+                  return ProductCard(product: demoProducts[index]);
+
+                return SizedBox
+                    .shrink(); // here by default width and height is 0
+              },
+            ),
+            const SizedBox(width: 20),
+          ],
+        ),
+      )
+    ],
+  );
 }
