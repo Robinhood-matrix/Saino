@@ -25,7 +25,7 @@ List<Product> demoProducts = [
   Product(
     id: 1,
     images: [
-      "assets/pictures/ad1.jpg",
+      "assets/pictures/potato.jpg",
     ],
     colors: const [
       Color(0xFFF6625E),
@@ -33,8 +33,8 @@ List<Product> demoProducts = [
       Color(0xFFDECB9C),
       Colors.white,
     ],
-    title: "Wireless Controller for PS4™",
-    price: 64.99,
+    title: "Potatos™",
+    price: 50.99,
     description: "hello",
     rating: 4.8,
     isFavourite: true,
@@ -43,7 +43,7 @@ List<Product> demoProducts = [
   Product(
     id: 2,
     images: [
-      "assets/pictures/ad1.jpg",
+      "assets/pictures/apple.jpg",
     ],
     colors: const [
       Color(0xFFF6625E),
@@ -51,8 +51,8 @@ List<Product> demoProducts = [
       Color(0xFFDECB9C),
       Colors.white,
     ],
-    title: "Wireless Controller for PS4™",
-    price: 64.99,
+    title: "Apples™",
+    price: 130.99,
     description: "hello",
     rating: 4.8,
     isFavourite: true,
@@ -61,7 +61,7 @@ List<Product> demoProducts = [
   Product(
     id: 3,
     images: [
-      "assets/pictures/ad1.jpg",
+      "assets/pictures/mango.jpg",
     ],
     colors: const [
       Color(0xFFF6625E),
@@ -69,8 +69,8 @@ List<Product> demoProducts = [
       Color(0xFFDECB9C),
       Colors.white,
     ],
-    title: "Wireless Controller for PS4™",
-    price: 64.99,
+    title: "Mangoes™",
+    price: 80.99,
     description: "hello",
     rating: 4.8,
     isFavourite: true,

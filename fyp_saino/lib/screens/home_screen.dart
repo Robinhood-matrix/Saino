@@ -90,13 +90,15 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          buildCarousel(),
-          Container(child: buildSpecialoffer()),
-          const SizedBox(height: 10),
-          buildPopularProduct()
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            buildCarousel(),
+            Container(child: buildSpecialoffer()),
+            const SizedBox(height: 10),
+            buildPopularProduct()
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -111,6 +113,10 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget buildCarousel() {
+    List<String> imagelist = [
+      'assets/pictures/ad1.jpg',
+      'assets/pictures/greenad.jpg'
+    ];
     return Container(
       height: 250,
       child: Padding(
@@ -202,15 +208,15 @@ class SpecialOfferCard extends StatelessWidget {
       child: GestureDetector(
         onTap: press,
         child: SizedBox(
-          width: 242,
-          height: 100,
+          width: 190,
+          height: 130,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Stack(
               children: [
                 Image.asset(
                   image,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fitWidth,
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -282,10 +288,11 @@ Widget buildPopularProduct() {
             ...List.generate(
               demoProducts.length,
               (index) {
-                if (demoProducts[index].isPopular)
+                if (demoProducts[index].isPopular) {
                   return ProductCard(product: demoProducts[index]);
+                }
 
-                return SizedBox
+                return const SizedBox
                     .shrink(); // here by default width and height is 0
               },
             ),

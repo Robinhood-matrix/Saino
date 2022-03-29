@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:fyp_saino/screens/home_screen.dart';
 import 'package:fyp_saino/screens/login_screen.dart';
 import 'package:fyp_saino/utilities/constants.dart';
+import 'package:http/http.dart' as http;
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -20,9 +23,37 @@ final TextEditingController email = TextEditingController();
 final TextEditingController password = TextEditingController();
 final TextEditingController confirmpassword = TextEditingController();
 
-String errorMessage = "";
-
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  Future register() async {
+    var url = "http://10.80.99.126/saino/admin/register.php";
+    var response = await http.post(Uri.parse(url),
+        body: {"username": username.text, "password": password.text});
+
+    var data = json.decode(response.body);
+    if (data == "Error") {
+      Fluttertoast.showToast(
+          msg: 'This user alreasy exists!',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.red,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: 'Resgistration Success',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.red,
+          fontSize: 16.0);
+
+      Navigator.push(context,
+          MaterialPageRoute(builder: ((context) => const LoginScreen())));
+    }
+  }
+
   Widget _buildUserNameTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -222,7 +253,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       padding: const EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          register();
+        },
         style: ElevatedButton.styleFrom(
           primary: Colors.white,
           padding: const EdgeInsets.all(15.0),

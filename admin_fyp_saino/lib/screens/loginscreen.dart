@@ -1,10 +1,9 @@
 import 'dart:convert';
+import 'package:admin_fyp_saino/screens/home_screen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:admin_fyp_saino/utilites.dart/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fyp_saino/screens/home_screen.dart';
-import 'package:fyp_saino/screens/registration_screen.dart';
-import 'package:fyp_saino/utilities/constants.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
@@ -27,10 +26,37 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
 
-  Future login() async {
-    var url = "http://110.80.99.126/saino/users/login.php";
+  Future register() async {
+    var url = "http://10.80.99.126/saino/admin/register.php";
     var response = await http.post(Uri.parse(url),
-        body: {"email": email.text, "password": password.text});
+        body: {"username": username.text, "password": password.text});
+
+    var data = json.decode(response.body);
+    if (data == "Error") {
+      Fluttertoast.showToast(
+          msg: 'This user alreasy exists!',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.red,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: 'Resgistration Success',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.red,
+          fontSize: 16.0);
+    }
+  }
+
+  Future login() async {
+    var url = "http://10.80.99.126/saino/admin/login.php";
+    var response = await http.post(Uri.parse(url),
+        body: {"username": username.text, "password": password.text});
 
     var data = json.decode(response.body);
     if (data == "Success") {
@@ -43,8 +69,8 @@ class _LoginScreenState extends State<LoginScreen> {
           textColor: Colors.red,
           fontSize: 16.0);
 
-      Navigator.push(context,
-          MaterialPageRoute(builder: ((context) => const HomeScreen())));
+      Navigator.push(
+          context, MaterialPageRoute(builder: ((context) => HomeScreen())));
     } else {
       Fluttertoast.showToast(
           msg: 'Username or Password  Incorrect!',
@@ -72,12 +98,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildEmailTF() {
+  Widget _buildUsernameTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const Text(
-          'Email',
+          'Username',
           style: kLabelStyle,
         ),
         const SizedBox(height: 10.0),
@@ -86,34 +112,34 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextFormField(
-            controller: email,
-            keyboardType: TextInputType.emailAddress,
+            controller: username,
+            keyboardType: TextInputType.name,
             validator: (value) {
               if (value!.isEmpty) {
-                return ("Please Enter Your Email");
+                return ("Please Enter Your Username");
                 //reg expression for email validation
               }
               if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                   .hasMatch(value)) {
-                return ("Please enter a valid email");
+                return ("Please enter a valid username");
               }
               return null;
             },
             onSaved: (value) {
-              email.text = value!;
+              username.text = value!;
             },
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.email,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Email',
+              hintText: 'Enter your Username',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -216,7 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildLoginBtn() {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 25.0),
+      padding: const EdgeInsets.symmetric(vertical: 15.0),
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
@@ -243,57 +269,33 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildSignupBtn() {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const RegistrationScreen()));
-      },
-      child: RichText(
-        text: const TextSpan(
-          children: [
-            TextSpan(
-              text: 'Don\'t have an Account? ',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            TextSpan(
-              text: 'Sign Up',
-              style: TextStyle(
-                decoration: TextDecoration.underline,
-                color: Colors.white,
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+  Widget _buildRegisterBtn() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          register();
+        },
+        style: ElevatedButton.styleFrom(
+          primary: Colors.white,
+          padding: const EdgeInsets.all(15.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+        ),
+        child: const Text(
+          'Register',
+          style: TextStyle(
+            color: Color(0xFF43A047),
+            letterSpacing: 1.5,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Arial',
+          ),
         ),
       ),
     );
-  }
-
-  Widget _buildSkip() {
-    return GestureDetector(
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()));
-        },
-        child: RichText(
-          text: const TextSpan(children: [
-            TextSpan(
-              text: 'Skip For Now',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-              ),
-            ),
-          ]),
-        ));
   }
 
   @override
@@ -335,7 +337,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       _mainLogo(),
                       const Text(
-                        'Sign In',
+                        'Admin Sign In',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',
@@ -344,7 +346,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 30.0),
-                      _buildEmailTF(),
+                      _buildUsernameTF(),
                       const SizedBox(
                         height: 30.0,
                       ),
@@ -352,11 +354,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       _buildForgotPasswordBtn(),
                       _buildRememberMeCheckbox(),
                       _buildLoginBtn(),
-                      _buildSignupBtn(),
+                      _buildRegisterBtn(),
                       const SizedBox(
                         height: 30.0,
                       ),
-                      _buildSkip(),
                     ],
                   ),
                 ),
