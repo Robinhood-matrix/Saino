@@ -28,15 +28,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController password = TextEditingController();
 
   Future login() async {
-    var url = "http://192.168.1.74/Saino/users/login.php";
-    var response = await http.post(Uri.parse(url), body: {
-      "email": email.text,
-      "username": username.text,
-      "password": password.text
-    });
+    var url = "http://192.168.1.74/saino/users/login.php";
+    var response = await http.post(Uri.parse(url),
+        body: {
+          "email":email.text,
+          "username": username.text,
+           "password": password.text});
 
     var data = json.decode(response.body);
-    if (data == "true") {
+    if (data == "Success") {
       Fluttertoast.showToast(
           msg: 'Login Successful',
           toastLength: Toast.LENGTH_SHORT,
@@ -46,19 +46,17 @@ class _LoginScreenState extends State<LoginScreen> {
           textColor: Colors.red,
           fontSize: 16.0);
 
-      Navigator.push(context,
-          MaterialPageRoute(builder: ((context) => const HomeScreen())));
-    } else if (data == "false") {
+      Navigator.push(
+          context, MaterialPageRoute(builder: ((context) => HomeScreen())));
+    } else {
       Fluttertoast.showToast(
-          msg: 'Incorrect Password!',
+          msg: 'Username or Password  Incorrect!',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.white,
           textColor: Colors.red,
           fontSize: 16.0);
-    } else {
-      print(data);
     }
   }
 

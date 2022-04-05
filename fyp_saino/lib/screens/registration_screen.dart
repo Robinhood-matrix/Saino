@@ -25,41 +25,32 @@ final TextEditingController confirmpassword = TextEditingController();
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   Future register() async {
-    var url = "http://192.168.1.74/users/register.php";
-    var data = {
+    var url = "http://192.168.1.74/saino/users/register.php";
+    var response = await http.post(Uri.parse(url), body: {
       "email": email.text,
       "username": username.text,
       "password": password.text
-    };
-    var res = await http.post(
-      Uri.parse(url),
-      body: data,
-    );
-    try {
-      if (jsonDecode(res.body) == "Error") {
-        Fluttertoast.showToast(
-            msg: 'This user alreasy exists!',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.white,
-            textColor: Colors.red,
-            fontSize: 16.0);
-      } else {
-        Fluttertoast.showToast(
-            msg: 'Resgistration Success',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.white,
-            textColor: Colors.red,
-            fontSize: 16.0);
+    });
 
-        Navigator.push(context,
-            MaterialPageRoute(builder: ((context) => const LoginScreen())));
-      }
-    } catch (e) {
-      print(e);
+    var data = json.decode(response.body);
+    if (data == "Error") {
+      Fluttertoast.showToast(
+          msg: 'This user alreasy exists!',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.red,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: 'Resgistration Success',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.red,
+          fontSize: 16.0);
     }
   }
 
