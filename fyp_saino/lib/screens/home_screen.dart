@@ -1,13 +1,27 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_saino/components/bottomnavbar.dart';
+import 'package:fyp_saino/components/drawer.dart';
 import 'package:fyp_saino/components/product_card.dart';
 import 'package:fyp_saino/model/product_model.dart';
+import 'package:fyp_saino/screens/account.dart';
+import 'package:fyp_saino/screens/categories/vegetables.dart';
 import 'package:fyp_saino/utilities/constants.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  static var routeName;
+
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+int _currentIndex = 0;
+final List<Widget> _children = [HomeScreen(), Account()];
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,69 +41,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color(0xFF4CAF50),
-              ),
-              child: Stack(
-                children: <Widget>[
-                  const Align(
-                    alignment: Alignment.topCenter,
-                    child: CircleAvatar(
-                      foregroundImage:
-                          AssetImage('assets/pictures/profilepic.jpg'),
-                      radius: 50,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.center + const Alignment(0, .7),
-                    child: const Text(
-                      "Jessica Reynolds",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  const Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text("reynoldJesicca32@gmail.com",
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(left: 10),
-              child: const Text(
-                "Browse By Category",
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.leaf),
-              title: Text('Vegetables'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.appleAlt),
-              title: Text('Fruits'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.wineBottle),
-              title: Text('Dairy'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.breadSlice),
-              title: Text('Bread & Bakery'),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
+      drawer: AppDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -100,23 +52,45 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.person), label: 'Account'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Setting'),
-        ],
-        selectedItemColor: kPrimaryColor,
+      bottomNavigationBar: BottomNavBar(),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          FontAwesomeIcons.plus,
+          size: 30,
+        ),
+        onPressed: () {},
+        tooltip: "Post an ad",
+        backgroundColor: kSecondaryColor,
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   Widget buildCarousel() {
-    List<String> imagelist = [
+    final List<String> imagelist = [
       'assets/pictures/ad1.jpg',
-      'assets/pictures/greenad.jpg'
+      'assets/pictures/greenad.jpg',
+      'assets/pictures/ad3.jpg'
     ];
+
+    List<Widget> generateCarousel() {
+      return imagelist
+          .map((element) => ClipRRect(
+                child: Image.asset(
+                  element,
+                  fit: BoxFit.fill,
+                ),
+                borderRadius: BorderRadius.circular(15),
+              ))
+          .toList();
+    }
+
     return Container(
       height: 250,
       child: Padding(
@@ -124,24 +98,19 @@ class HomeScreen extends StatelessWidget {
         child: Stack(children: [
           CarouselSlider(
             options: CarouselOptions(
-                autoPlay: true, autoPlayInterval: Duration(seconds: 4)),
-            items: [
-              Container(
-                  margin: const EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    image: const DecorationImage(
-                      image: AssetImage('assets/pictures/ad1.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ))
-            ],
+                enlargeCenterPage: true,
+                height: 200,
+                autoPlay: true,
+                aspectRatio: 18 / 8,
+                autoPlayInterval: Duration(seconds: 4)),
+            items: generateCarousel(),
           ),
         ]),
       ),
     );
   }
 
+  Widget buildImage(String imageList, int index) => Container();
   Widget buildSpecialoffer() {
     return Column(
       children: [
@@ -291,7 +260,6 @@ Widget buildPopularProduct() {
                 if (demoProducts[index].isPopular) {
                   return ProductCard(product: demoProducts[index]);
                 }
-
                 return const SizedBox
                     .shrink(); // here by default width and height is 0
               },

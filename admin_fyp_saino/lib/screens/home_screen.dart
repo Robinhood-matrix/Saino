@@ -1,8 +1,29 @@
 import 'package:admin_fyp_saino/utilites.dart/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String token = "";
+  @override
+  void initState() {
+    super.initState();
+    getCred();
+  }
+
+  void getCred() async {
+    //here we get fetch our credentials
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      token = pref.getString('login')!;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

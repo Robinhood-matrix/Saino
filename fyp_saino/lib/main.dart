@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'package:fyp_saino/screens/categories/dairy.dart';
+import 'package:fyp_saino/screens/categories/fruits.dart';
+import 'package:fyp_saino/screens/categories/grains.dart';
+import 'package:fyp_saino/screens/categories/livestocks.dart';
+import 'package:fyp_saino/screens/categories/vegetables.dart';
+import 'package:fyp_saino/screens/details_screen.dart';
+import 'package:fyp_saino/screens/home_screen.dart';
+
 import 'package:fyp_saino/screens/login_screen.dart';
+
+import 'package:fyp_saino/screens/registration_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,10 +24,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Flutter Login UI',
+    return MaterialApp(
+      title: 'Saino',
       debugShowCheckedModeBanner: false,
       home: LoginScreen(),
+      routes: {
+        "/home": (BuildContext context) => const HomeScreen(),
+        "/login": (BuildContext context) => const LoginScreen(),
+        "/register": (BuildContext context) => const RegistrationScreen(),
+        "/vegetables": (BuildContext context) => Vegetables(),
+        "/fruits": (BuildContext context) => Fruits(),
+        "/grains": (BuildContext context) => Grains(),
+        "/dairy": (BuildContext context) => Dairy(),
+        "/livestocks": (BuildContext context) => LiveStocks(),
+        // "/logout":(BuildContext context) => LogOut(),
+      },
     );
   }
 }

@@ -28,12 +28,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController password = TextEditingController();
 
   Future login() async {
-    var url = "http://110.80.99.126/saino/users/login.php";
-    var response = await http.post(Uri.parse(url),
-        body: {"email": email.text, "password": password.text});
+    var url = "http://192.168.1.74/Saino/users/login.php";
+    var response = await http.post(Uri.parse(url), body: {
+      "email": email.text,
+      "username": username.text,
+      "password": password.text
+    });
 
     var data = json.decode(response.body);
-    if (data == "Success") {
+    if (data == "true") {
       Fluttertoast.showToast(
           msg: 'Login Successful',
           toastLength: Toast.LENGTH_SHORT,
@@ -45,15 +48,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
       Navigator.push(context,
           MaterialPageRoute(builder: ((context) => const HomeScreen())));
-    } else {
+    } else if (data == "false") {
       Fluttertoast.showToast(
-          msg: 'Username or Password  Incorrect!',
+          msg: 'Incorrect Password!',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.white,
           textColor: Colors.red,
           fontSize: 16.0);
+    } else {
+      print(data);
     }
   }
 
@@ -76,10 +81,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text(
-          'Email',
-          style: kLabelStyle,
-        ),
         const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -122,14 +123,56 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Widget _buildUserNameTF() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextFormField(
+            controller: username,
+            validator: (value) {
+              RegExp regex = RegExp(r'^.{3,}$');
+              if (value == null || value.length < 3) {
+                return "Username is too short";
+              } else if (value == "") {
+                return "Please fill Username";
+              } else if (!regex.hasMatch(value)) {
+                return ("Enter valid name(Min.3 character");
+              }
+              return "";
+            },
+            onSaved: (value) {
+              username.text = value!;
+            },
+            keyboardType: TextInputType.emailAddress,
+            style: const TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.person_outline_rounded,
+                color: Colors.white,
+              ),
+              hintText: 'Enter a Username',
+              hintStyle: kHintTextStyle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildPasswordTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text(
-          'Password',
-          style: kLabelStyle,
-        ),
         const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -345,6 +388,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 30.0),
                       _buildEmailTF(),
+                      const SizedBox(
+                        height: 30.0,
+                      ),
+                      _buildUserNameTF(),
                       const SizedBox(
                         height: 30.0,
                       ),

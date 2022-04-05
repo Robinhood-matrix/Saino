@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'package:admin_fyp_saino/controller/login_controller.dart';
 import 'package:admin_fyp_saino/screens/home_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:admin_fyp_saino/utilites.dart/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -18,7 +21,18 @@ final _formKey = GlobalKey<FormState>();
 class _LoginScreenState extends State<LoginScreen> {
   String errorMessage = "";
 
-  //firebase
+  void checkLogin() async {
+    //Here check user already login or not
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? val = await pref.getString('login');
+    if (val != null) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+          (route) => false);
+    }
+  }
 
   bool _rememberMe = false;
   //editing controller
@@ -27,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController password = TextEditingController();
 
   Future register() async {
-    var url = "http://10.80.99.126/saino/admin/register.php";
+    var url = "http://192.168.1.74/saino/admin/register.php";
     var response = await http.post(Uri.parse(url),
         body: {"username": username.text, "password": password.text});
 
@@ -54,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future login() async {
-    var url = "http://10.80.99.126/saino/admin/login.php";
+    var url = "http://192.168.1.74/saino/admin/login.php";
     var response = await http.post(Uri.parse(url),
         body: {"username": username.text, "password": password.text});
 
@@ -240,13 +254,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
 // login function
 
-  Widget _buildLoginBtn() {
+  Widget _buildLoginBtn(BuildContext context) {
+    var _loginCon = Provider.of<LoginController>(context);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15.0),
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          login();
+          _loginCon.login(context);
         },
         style: ElevatedButton.styleFrom(
           primary: Colors.white,
@@ -353,7 +368,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       _buildPasswordTF(),
                       _buildForgotPasswordBtn(),
                       _buildRememberMeCheckbox(),
-                      _buildLoginBtn(),
+                      _buildLoginBtn(context),
                       _buildRegisterBtn(),
                       const SizedBox(
                         height: 30.0,
