@@ -2,10 +2,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fyp_saino/controller/login_controller.dart';
 import 'package:fyp_saino/screens/home_screen.dart';
 import 'package:fyp_saino/screens/registration_screen.dart';
 import 'package:fyp_saino/utilities/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -14,12 +17,8 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-final _formKey = GlobalKey<FormState>();
-
 class _LoginScreenState extends State<LoginScreen> {
   String errorMessage = "";
-
-  //firebase
 
   bool _rememberMe = false;
   //editing controller
@@ -30,10 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future login() async {
     var url = "http://192.168.1.74/saino/users/login.php";
     var response = await http.post(Uri.parse(url),
-        body: {
-          "email":email.text,
-          "username": username.text,
-           "password": password.text});
+        body: {"email": email.text, "password": password.text});
 
     var data = json.decode(response.body);
     if (data == "Success") {
@@ -76,6 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildEmailTF() {
+    var _loginCon = Provider.of<LoginController>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -85,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextFormField(
-            controller: email,
+            controller: _loginCon.textEmailController,
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
               if (value!.isEmpty) {
@@ -121,53 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildUserNameTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        const SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextFormField(
-            controller: username,
-            validator: (value) {
-              RegExp regex = RegExp(r'^.{3,}$');
-              if (value == null || value.length < 3) {
-                return "Username is too short";
-              } else if (value == "") {
-                return "Please fill Username";
-              } else if (!regex.hasMatch(value)) {
-                return ("Enter valid name(Min.3 character");
-              }
-              return "";
-            },
-            onSaved: (value) {
-              username.text = value!;
-            },
-            keyboardType: TextInputType.emailAddress,
-            style: const TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-            ),
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.person_outline_rounded,
-                color: Colors.white,
-              ),
-              hintText: 'Enter a Username',
-              hintStyle: kHintTextStyle,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildPasswordTF() {
+    var _loginCon = Provider.of<LoginController>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -177,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextFormField(
-            controller: password,
+            controller: _loginCon.textPasswordController,
             autofocus: false,
             obscureText: true,
             validator: (value) {
@@ -256,12 +208,13 @@ class _LoginScreenState extends State<LoginScreen> {
 // login function
 
   Widget _buildLoginBtn() {
+    var _loginCon = Provider.of<LoginController>(context);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          login();
+          _loginCon.login1(context);
         },
         style: ElevatedButton.styleFrom(
           primary: Colors.white,
@@ -386,10 +339,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 30.0),
                       _buildEmailTF(),
-                      const SizedBox(
-                        height: 30.0,
-                      ),
-                      _buildUserNameTF(),
                       const SizedBox(
                         height: 30.0,
                       ),

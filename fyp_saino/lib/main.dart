@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_saino/controller/login_controller.dart';
+import 'package:fyp_saino/controller/product_controller.dart';
 
 import 'package:fyp_saino/screens/categories/dairy.dart';
 import 'package:fyp_saino/screens/categories/fruits.dart';
@@ -11,11 +13,18 @@ import 'package:fyp_saino/screens/home_screen.dart';
 import 'package:fyp_saino/screens/login_screen.dart';
 
 import 'package:fyp_saino/screens/registration_screen.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => ProductContoller()),
+      ChangeNotifierProvider(create: (context) => LoginController())
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

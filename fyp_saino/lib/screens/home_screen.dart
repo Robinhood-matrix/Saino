@@ -4,10 +4,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_saino/components/bottomnavbar.dart';
 import 'package:fyp_saino/components/drawer.dart';
 import 'package:fyp_saino/components/product_card.dart';
+import 'package:fyp_saino/controller/product_controller.dart';
 import 'package:fyp_saino/model/product_model.dart';
 import 'package:fyp_saino/screens/account.dart';
 import 'package:fyp_saino/screens/categories/vegetables.dart';
 import 'package:fyp_saino/utilities/constants.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   static var routeName;
@@ -22,6 +25,21 @@ int _currentIndex = 0;
 final List<Widget> _children = [HomeScreen(), Account()];
 
 class _HomeScreenState extends State<HomeScreen> {
+  String token = "";
+  @override
+  void initState() {
+    super.initState();
+    getCred();
+  }
+
+  void getCred() async {
+    //here we get fetch our credentials
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      token = pref.getString('login')!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -252,21 +270,23 @@ Widget buildPopularProduct() {
       const SizedBox(height: 20),
       SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            ...List.generate(
-              demoProducts.length,
-              (index) {
-                if (demoProducts[index].isPopular) {
-                  return ProductCard(product: demoProducts[index]);
-                }
-                return const SizedBox
-                    .shrink(); // here by default width and height is 0
-              },
-            ),
-            const SizedBox(width: 20),
-          ],
-        ),
+        child: Consumer<ProductContoller>(builder: (context, product, child) {
+          return Row(
+            children: [
+              ...List.generate(
+                product.demoProducts.length,
+                (index) {
+                  if (product.demoProducts[index].isPopular) {
+                    return ProductCard(product: product.demoProducts[index]);
+                  }
+                  return const SizedBox
+                      .shrink(); // here by default width and height is 0
+                },
+              ),
+              const SizedBox(width: 20),
+            ],
+          );
+        }),
       )
     ],
   );

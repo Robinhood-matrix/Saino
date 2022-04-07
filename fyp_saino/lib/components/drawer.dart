@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_saino/screens/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -54,7 +56,7 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(FontAwesomeIcons.appleAlt),
+            leading: Icon(FontAwesomeIcons.appleWhole),
             title: Text('Fruits'),
             onTap: () {
               Navigator.popAndPushNamed(context, '/fruits');
@@ -84,8 +86,14 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.logout),
             title: Text('Log Out'),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/login');
+            onTap: () async {
+              SharedPreferences pre = await SharedPreferences.getInstance();
+              await pre.clear();
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                  (route) => false);
             },
           ),
         ],
