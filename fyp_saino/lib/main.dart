@@ -1,53 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_saino/controller/login_controller.dart';
-import 'package:fyp_saino/controller/product_controller.dart';
-
-import 'package:fyp_saino/screens/categories/dairy.dart';
-import 'package:fyp_saino/screens/categories/fruits.dart';
-import 'package:fyp_saino/screens/categories/grains.dart';
-import 'package:fyp_saino/screens/categories/livestocks.dart';
-import 'package:fyp_saino/screens/categories/vegetables.dart';
-import 'package:fyp_saino/screens/details_screen.dart';
+import 'package:fyp_saino/admin/admin_home.dart';
+import 'package:fyp_saino/admin/products_screen.dart';
+import 'package:fyp_saino/controller/auth_controller.dart';
+import 'package:fyp_saino/controller/categories_controller.dart';
+import 'package:fyp_saino/controller/products_controller.dart';
 import 'package:fyp_saino/screens/home_screen.dart';
-
 import 'package:fyp_saino/screens/login_screen.dart';
-
 import 'package:fyp_saino/screens/registration_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:fyp_saino/screens/splash/splash_screen.dart';
+import 'package:get/get.dart';
+import 'package:khalti/khalti.dart';
+
+import 'utilities/auth_checker.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => ProductContoller()),
-      ChangeNotifierProvider(create: (context) => LoginController())
+  Get.put(AuthController());
+  Get.put(ProductController());
+  // Get.put(CartController());
+  // Get.put(OrderController());
+  Get.put(CategoriesController());
+  await Khalti.init(
+    publicKey: 'test_public_key_ed5025c901a34386b78c72720f86aa5e',
+    enabledDebugging: true,
+  );
+  runApp(GetMaterialApp(
+    debugShowCheckedModeBanner: false,
+    // transition slow
+    transitionDuration: Duration(milliseconds: 350),
+    // default transition
+    defaultTransition: Transition.rightToLeft,
+    initialRoute: '/',
+    getPages: [
+      GetPage(
+        name: '/',
+        page: () => AuthChecker(),
+      ),
+      GetPage(
+        name: '/splash',
+        page: () => SplashScreen(),
+      ),
+      GetPage(
+        name: '/login',
+        page: () => LoginScreen(),
+      ),
+      GetPage(
+        name: '/signup',
+        page: () => RegistrationScreen(),
+      ),
+      GetPage(
+        name: '/home',
+        page: () => HomeScreen(),
+      ),
+      GetPage(
+        name: '/admin',
+        page: () => AdminHome(),
+      ),
+      GetPage(
+        name: '/product-screen',
+        page: () => ProductScreen(),
+      ),
     ],
-    child: MyApp(),
   ));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Saino',
-      debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
-      routes: {
-        "/home": (BuildContext context) => const HomeScreen(),
-        "/login": (BuildContext context) => const LoginScreen(),
-        "/register": (BuildContext context) => const RegistrationScreen(),
-        "/vegetables": (BuildContext context) => Vegetables(),
-        "/fruits": (BuildContext context) => Fruits(),
-        "/grains": (BuildContext context) => Grains(),
-        "/dairy": (BuildContext context) => Dairy(),
-        "/livestocks": (BuildContext context) => LiveStocks(),
-        // "/logout":(BuildContext context) => LogOut(),
-      },
-    );
-  }
 }

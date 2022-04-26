@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fyp_saino/components/bottomNavbar.dart';
+
 import 'package:fyp_saino/components/drawer.dart';
-import 'package:fyp_saino/screens/categories/vegetables.dart';
-import 'package:fyp_saino/screens/home_screen.dart';
-import 'package:fyp_saino/screens/login_screen.dart';
+
 import 'package:http/http.dart' as http;
 
 class Dairy extends StatefulWidget {
@@ -109,7 +106,6 @@ class _DairyState extends State<Dairy> {
           ),
         ),
         drawer: AppDrawer(),
-        bottomNavigationBar: BottomNavBar(),
         body: Column(children: [
           Expanded(
             //InkWell(

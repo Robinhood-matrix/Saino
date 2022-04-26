@@ -1,16 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fyp_saino/components/bottomnavbar.dart';
+
 import 'package:fyp_saino/components/drawer.dart';
-import 'package:fyp_saino/components/product_card.dart';
-import 'package:fyp_saino/controller/product_controller.dart';
-import 'package:fyp_saino/model/product_model.dart';
+import 'package:fyp_saino/screens/MainScreen.dart';
+
 import 'package:fyp_saino/screens/account.dart';
-import 'package:fyp_saino/screens/categories/vegetables.dart';
+import 'package:fyp_saino/screens/cart_screen.dart';
+
 import 'package:fyp_saino/utilities/constants.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+final GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
 
 class HomeScreen extends StatefulWidget {
   static var routeName;
@@ -21,23 +21,14 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-int _currentIndex = 0;
-final List<Widget> _children = [HomeScreen(), Account()];
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
 
-class _HomeScreenState extends State<HomeScreen> {
-  String token = "";
   @override
   void initState() {
+    _tabController = TabController(length: 3, vsync: this);
     super.initState();
-    getCred();
-  }
-
-  void getCred() async {
-    //here we get fetch our credentials
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    setState(() {
-      token = pref.getString('login')!;
-    });
   }
 
   @override
@@ -45,49 +36,61 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF4CAF50),
-        title: Container(
-          width: double.infinity,
-          height: 40,
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(7)),
-          child: const Center(
-            child: TextField(
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    hintText: 'Search...',
-                    border: InputBorder.none)),
-          ),
-        ),
       ),
       drawer: AppDrawer(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            buildCarousel(),
-            Container(child: buildSpecialoffer()),
-            const SizedBox(height: 10),
-            buildPopularProduct()
-          ],
-        ),
+      body: Navigator(
+        key: _navKey,
+        onGenerateRoute: (_) => MaterialPageRoute(
+            builder: (_) => TabBarView(controller: _tabController, children: [
+                  MainScreen(),
+                  CartScreen(),
+                  Account(),
+                ])),
       ),
-      bottomNavigationBar: BottomNavBar(),
+      bottomNavigationBar: BottomNavigationBar(
+        unselectedItemColor: Colors.green.withOpacity(0.5),
+        onTap: (index) {
+          _tabController.animateTo(index);
+          setState(() {});
+        },
+        currentIndex: _tabController.index,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              color: Colors.green,
+            ),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.favorite,
+              color: Colors.green,
+            ),
+            label: 'Favorite',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              color: Colors.green,
+            ),
+            label: 'Profile',
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
           FontAwesomeIcons.plus,
           size: 30,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.popAndPushNamed(context, '/admin');
+        },
         tooltip: "Post an ad",
         backgroundColor: kSecondaryColor,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
-  }
-
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
   }
 
   Widget buildCarousel() {
@@ -112,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       height: 250,
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(7.0),
         child: Stack(children: [
           CarouselSlider(
             options: CarouselOptions(
@@ -158,13 +161,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 image: "assets/pictures/ad1.jpg",
                 category: "Vegetables",
                 numOfBrands: 18,
-                press: () {},
+                press: () {
+                  Navigator.popAndPushNamed(context, '/vegetables');
+                },
               ),
               SpecialOfferCard(
-                image: "assets/pictures/ad1.jpg",
+                image: "assets/pictures/dairyAd.jpg",
                 category: "Dairy Products",
                 numOfBrands: 24,
-                press: () {},
+                press: () {
+                  Navigator.popAndPushNamed(context, '/dairy');
+                },
               ),
               const SizedBox(width: 20),
             ],
@@ -268,26 +275,6 @@ Widget buildPopularProduct() {
         ],
       ),
       const SizedBox(height: 20),
-      SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Consumer<ProductContoller>(builder: (context, product, child) {
-          return Row(
-            children: [
-              ...List.generate(
-                product.demoProducts.length,
-                (index) {
-                  if (product.demoProducts[index].isPopular) {
-                    return ProductCard(product: product.demoProducts[index]);
-                  }
-                  return const SizedBox
-                      .shrink(); // here by default width and height is 0
-                },
-              ),
-              const SizedBox(width: 20),
-            ],
-          );
-        }),
-      )
     ],
   );
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_saino/admin/add_category.dart';
+import 'package:fyp_saino/admin/admin_orders.dart';
 import 'package:fyp_saino/controller/auth_controller.dart';
 import 'package:fyp_saino/screens/login_screen.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AppDrawer extends GetView<AuthController> {
-  const AppDrawer({Key? key}) : super(key: key);
+class AdminDrawer extends GetView<AuthController> {
+  const AdminDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class AppDrawer extends GetView<AuthController> {
         children: [
           DrawerHeader(
             decoration: const BoxDecoration(
-              color: Color(0xFF4CAF50),
+              color: Color.fromARGB(170, 74, 33, 7),
             ),
             child: Stack(
               children: <Widget>[
@@ -39,55 +41,27 @@ class AppDrawer extends GetView<AuthController> {
                   alignment: Alignment.topLeft + const Alignment(0, 0.5),
                   child: content(value: controller.user["name"]),
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: content(value: controller.user["username"]),
-                ),
               ],
             ),
           ),
           Container(
             padding: const EdgeInsets.only(left: 10),
             child: const Text(
-              "Browse By Category",
+              "Admin",
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ),
           ListTile(
-            leading: Icon(FontAwesomeIcons.leaf),
-            title: Text('Vegetables'),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/vegetables');
-            },
-          ),
+              leading: Icon(FontAwesomeIcons.plus),
+              title: Text('Add Category'),
+              onTap: () {
+                Get.bottomSheet(
+                    AddCategory(categoryController: TextEditingController()));
+              }),
           ListTile(
-            leading: Icon(FontAwesomeIcons.appleWhole),
-            title: Text('Fruits'),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/fruits');
-            },
-          ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.wineBottle),
-            title: Text('Dairy'),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/dairy');
-            },
-          ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.breadSlice),
-            title: Text('Grains'),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/grains');
-            },
-          ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.cow),
-            title: Text('LiveStocks'),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/livestocks');
-            },
-          ),
+              leading: Icon(FontAwesomeIcons.linesLeaning),
+              title: Text('View Orders'),
+              onTap: () => Get.to(AdminOrders())),
           ListTile(
             leading: Icon(Icons.logout),
             title: Text('Log Out'),

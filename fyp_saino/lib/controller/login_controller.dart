@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fyp_saino/screens/details_screen.dart';
+
 import 'package:fyp_saino/screens/home_screen.dart';
-import 'package:fyp_saino/screens/registration_screen.dart';
+
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +19,7 @@ class LoginController extends ChangeNotifier {
         textEmailController.text.isNotEmpty &&
         textPasswordController.text.isNotEmpty) {
       var response = await http.post(
-          Uri.parse('http://192.168.1.74/saino/users/login.php'),
+          Uri.parse('http://192.168.1.68/saino/users/login.php'),
           body: ({
             'email': textEmailController.text,
             'username': textEmailController.text,
