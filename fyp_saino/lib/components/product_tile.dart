@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_saino/components/add_to_cart_bottomsheet.dart';
 import 'package:fyp_saino/controller/auth_controller.dart';
 import 'package:fyp_saino/model/product_model.dart';
 import 'package:fyp_saino/screens/DetailScreen.dart';
@@ -24,15 +25,6 @@ class ProductTile extends StatelessWidget {
     AppColors.light_green,
     AppColors.light_p
   ];
-  final List<Color> colors_dark = <Color>[
-    AppColors.dark_yellow,
-    AppColors.dark_y,
-    AppColors.dark_blue,
-    AppColors.dark_pink,
-    AppColors.dark_green,
-    AppColors.dark_p
-  ];
-
   ProductTile({
     Key? key,
     required this.product,
@@ -59,11 +51,13 @@ class ProductTile extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
                     colors: [
-                      Color.fromARGB(255, 14, 172, 53),
-                      Colors.white,
+                      Color.fromARGB(255, 133, 225, 134),
+                      Color.fromARGB(255, 157, 228, 151),
+                      Color.fromARGB(255, 150, 225, 153),
+                      Color.fromARGB(255, 216, 226, 217),
                     ]), // height: 200,
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),
@@ -106,36 +100,42 @@ class ProductTile extends StatelessWidget {
           ),
           if (authController.user.value["is_admin"] != '1')
             Positioned(
-                top: 0,
-                right: 0,
+                top: 10,
+                right: 14,
                 child: CircleAvatar(
-                  backgroundColor: !is_wishlist ? Colors.black : Colors.white,
+                  radius: 15,
+                  backgroundColor:
+                      !is_wishlist ? Colors.grey[800] : Colors.white,
                   child: IconButton(
+                    padding: EdgeInsets.only(right: 0),
                     icon: Icon(Icons.favorite,
-                        color: is_wishlist ? Colors.red : Colors.white),
+                        size: 20,
+                        color: is_wishlist ? Colors.red : AppColors.grey),
                     onPressed: () => onWishlist(),
                   ),
                 )),
           Positioned(
-            bottom: 0,
+            bottom: 5,
             right: 0,
             child: CircleAvatar(
-              backgroundColor: Colors.black,
+              backgroundColor: AppColors.black,
               child: InkWell(
                 onTap: () {
                   if (authController.user.value["is_admin"] == '1') {
                     onAdminPress();
                   } else {
-                    // Get.bottomSheet(AddToCartBottomSheet(
-                    //   item: product,
-                    // ));
+                    Get.bottomSheet(AddToCartBottomSheet(
+                      item: product,
+                    ));
                   }
                 },
                 child: Container(
                   padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[800], shape: BoxShape.circle),
                   child: Icon(
                     authController.user.value["is_admin"] != '1'
-                        ? Icons.shopping_bag
+                        ? Icons.shopping_cart
                         : Icons.edit,
                     color: Colors.white,
                   ),
@@ -150,7 +150,7 @@ class ProductTile extends StatelessWidget {
 
   Widget _itemTopView(int index) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8, right: 10, top: 2, bottom: 0),
+      padding: const EdgeInsets.only(left: 5, right: 10, top: 2, bottom: 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

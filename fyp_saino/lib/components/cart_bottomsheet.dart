@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:fyp_saino/components/custom_button.dart';
 import 'package:fyp_saino/controller/cart_controller.dart';
+import 'package:fyp_saino/controller/order_controller.dart';
+import 'package:fyp_saino/screens/payment/payment.dart';
 import 'package:get/get.dart';
 
 class CartBottomSheet extends StatefulWidget {
@@ -13,7 +14,7 @@ class CartBottomSheet extends StatefulWidget {
 
 class _CartBottomSheetState extends State<CartBottomSheet> {
   final cartController = Get.find<CartController>();
-
+  final orderController = Get.find<OrderController>();
   String selectedPayment = '1';
 
   @override
@@ -48,7 +49,9 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                     value: '1',
                   ),
                   paymentSelector(
-                      value: '2', type: 'COD', image: "assets/images/cod.png"),
+                      value: '2',
+                      type: 'COD',
+                      image: "assets/pictures/cod.png"),
                 ],
               ),
               Padding(
@@ -59,7 +62,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                     hintText: 'Enter your delivery address',
                   ),
                   onChanged: (value) {
-                   // orderController.address.value = value;
+                    orderController.address.value = value;
                   },
                 ),
               ),
@@ -77,7 +80,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                   keyboardType: TextInputType.number,
 
                   onChanged: (value) {
-                    //orderController.phone.value = value;
+                    orderController.phone.value = value;
                   },
                 ),
               ),
@@ -87,22 +90,23 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
               Hero(
                 tag: 'payment',
                 child: CustomButton(
+                  onTap: () {
+                    // orderController.placeOrder(
+                    //     transaction_token: 'dsadsa');
+                    if (orderController.validate()) {
+                      if (selectedPayment == '1') {
+                        Get.bottomSheet(WalletPayment(
+                            onsuccess: (token) => orderController.placeOrder(
+                                transaction_token: token)));
+                      } else {
+                        orderController.placeOrder(
+                            transaction_token: 'COD', method: '2');
+                      }
+                    }
+                  },
+                  label: 'Proceed',
                   color: Colors.black,
-                    onTap: () {
-                      // // orderController.placeOrder(
-                      // //     transaction_token: 'dsadsa');
-                      // if (orderController.validate()) {
-                      //   if (selectedPayment == '1') {
-                      //     Get.bottomSheet(WalletPayment(
-                      //         onsuccess: (token) => orderController.placeOrder(
-                      //             transaction_token: token)));
-                      //   } else {
-                      //     orderController.placeOrder(
-                      //         transaction_token: 'COD', method: '2');
-                      //   }
-                      // }
-                    },
-                    label: 'Proceed'),
+                ),
               )
             ],
           ),
@@ -112,7 +116,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
   }
 
   Widget paymentSelector({
-    image = 'assets/images/khalti.png',
+    image = 'assets/pictures/khalti.png',
     type = "khalti",
     value = '1',
   }) {

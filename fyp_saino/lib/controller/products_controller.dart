@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:fyp_saino/model/product_model.dart';
-import 'package:fyp_saino/utilities/apis.dart';
 import 'package:fyp_saino/utilities/commons.dart';
 import 'package:fyp_saino/utilities/custom_http.dart';
-
 import 'package:get/get.dart';
 import 'package:localstorage/localstorage.dart';
+
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import '../utilities/apis.dart';
 
 class ProductController extends GetxController {
   final LocalStorage storage = new LocalStorage('items');

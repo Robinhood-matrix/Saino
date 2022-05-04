@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import 'package:flutter/material.dart';
 import 'package:fyp_saino/model/product_model.dart';
 import 'package:get/get.dart';

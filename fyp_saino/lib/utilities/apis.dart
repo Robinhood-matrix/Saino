@@ -1,4 +1,4 @@
-const baseUrl = 'http://192.168.1.68/fyp_saino/';
+const baseUrl = 'http://192.168.1.71/fyp_saino/';
 //const baseUrl = 'https://192.168.1.66/cellu_town_api/';
 
 const loginApi = "$baseUrl/login.php";

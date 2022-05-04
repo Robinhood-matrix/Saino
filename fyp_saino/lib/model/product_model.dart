@@ -7,14 +7,14 @@ String productToJson(List<Product> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Product {
-  Product({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.image,
-    required this.price,
-    required this.categoryId,
-  });
+  Product(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.image,
+      required this.price,
+      required this.categoryId,
+     });
 
   String id;
   String name;
@@ -22,6 +22,7 @@ class Product {
   String image;
   String price;
   String categoryId;
+ 
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
@@ -29,6 +30,7 @@ class Product {
         description: json["description"],
         image: json["image"],
         price: json["price"],
+      
         categoryId: json["category_id"],
       );
 
@@ -39,5 +41,6 @@ class Product {
         "image": image,
         "price": price,
         "category_id": categoryId,
+       
       };
 }

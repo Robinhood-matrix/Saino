@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_saino/admin/add_category.dart';
 import 'package:fyp_saino/admin/admin_orders.dart';
+
 import 'package:fyp_saino/admin/admindrawer.dart';
 
 import 'package:fyp_saino/controller/auth_controller.dart';
@@ -17,6 +19,15 @@ class AdminHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.add),
+        backgroundColor: Color.fromARGB(170, 74, 33, 7),
+        label: Text('Add Category'),
+        onPressed: () {
+          Get.bottomSheet(
+              AddCategory(categoryController: TextEditingController()));
+        },
+      ),
       appBar: AppBar(
         backgroundColor: Color.fromARGB(170, 74, 33, 7),
         title: Text('Admin Panel'),
@@ -46,7 +57,6 @@ class AdminHome extends StatelessWidget {
         padding: const EdgeInsets.all(5.0),
         child: Column(
           children: [
-            //add category button
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -58,13 +68,11 @@ class AdminHome extends StatelessWidget {
                           categoryController: TextEditingController()))),
                   cardTile(
                       label: 'View Orders',
-                      icon: Icon(Icons.list),
+                      icon: Icon(FontAwesomeIcons.linesLeaning),
                       onTap: () => Get.to(AdminOrders()))
                 ],
               ),
             ),
-
-            //getbuilder for categories
             Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
@@ -99,10 +107,15 @@ class AdminHome extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: Colors.black12,
-                blurRadius: 10,
-                spreadRadius: 5,
-              )
+                  color: Colors.black,
+                  blurRadius: 8,
+                  spreadRadius: 3,
+                  offset: Offset(4, 4)),
+              BoxShadow(
+                  color: Colors.white,
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                  offset: Offset(-4, -4)),
             ],
           ),
           child: Column(
@@ -127,10 +140,15 @@ class AdminHome extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: Colors.black12,
-                blurRadius: 10,
-                spreadRadius: 5,
-              )
+                  color: Colors.black,
+                  blurRadius: 8,
+                  spreadRadius: 3,
+                  offset: Offset(4, 4)),
+              BoxShadow(
+                  color: Colors.white,
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                  offset: Offset(-4, -4)),
             ],
           ),
           child: Column(
@@ -163,7 +181,7 @@ class AdminHome extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () {
-                       //controller.deleteCategory(category['id']);
+                      //controller.deleteCategory(category['id']);
                     },
                   ),
                 ],

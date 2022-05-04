@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fyp_saino/components/drawer.dart';
 import 'package:fyp_saino/components/product_tile.dart';
 import 'package:fyp_saino/controller/categories_controller.dart';
 import 'package:fyp_saino/controller/products_controller.dart';
@@ -23,29 +24,33 @@ class _MainScreenState extends State<MainScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(),
       backgroundColor: AppColors.white,
       body: SafeArea(
         child: AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle.dark,
-          child: Container(
-            height: Get.height,
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 20),
-                    _middleView(),
-                    buildCarousel(),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    _categories(),
-                    Obx(() => Container(
-                        child: widget.controller.searched.trim() == ""
-                            ? all()
-                            : searched()))
-                  ],
-                )),
+          child: SingleChildScrollView(
+            child: Container(
+              height: Get.height,
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 20),
+                      _middleView(),
+                      buildCarousel(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      _categories(),
+                      _buildProducts(),
+                      Obx(() => Container(
+                          child: widget.controller.searched.trim() == ""
+                              ? all()
+                              : searched()))
+                    ],
+                  )),
+            ),
           ),
         ),
       ),
@@ -119,7 +124,7 @@ class _MainScreenState extends State<MainScreen>
         Container(
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-              color: AppColors.gray,
+              color: AppColors.grey,
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Icon(
@@ -130,8 +135,8 @@ class _MainScreenState extends State<MainScreen>
         Container(
           child: SvgPicture.asset(
             "assets/logos/heart.svg",
-            height: 30,
-            width: 20,
+            height: 10,
+            width: 10,
           ),
         )
       ],
@@ -139,33 +144,37 @@ class _MainScreenState extends State<MainScreen>
   }
 
   Widget _middleView() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                color: AppColors.gray),
-            child: TextField(
-              onChanged: (value) =>
-                  widget.controller.filterbySearch(search: value),
-              cursorColor: AppColors.black,
-              style: TextStyle(color: AppColors.black, fontSize: 16),
-              decoration: InputDecoration(
-                  icon: Icon(
-                    Icons.search,
-                    color: Colors.grey,
-                  ),
-                  hintText: "Search...",
-                  hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
-                  border: InputBorder.none),
-            ),
+    return AppBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      iconTheme: IconThemeData(color: Colors.black),
+      title:
+          Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              color: AppColors.grey),
+          child: TextField(
+            onChanged: (value) =>
+                widget.controller.filterbySearch(search: value),
+            cursorColor: AppColors.black,
+            style: TextStyle(color: AppColors.black, fontSize: 16),
+            decoration: InputDecoration(
+                icon: Icon(
+                  Icons.search,
+                  color: Colors.grey,
+                ),
+                hintText: "Search...",
+                hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+                border: InputBorder.none),
           ),
-          SizedBox(
-            height: 10,
-          )
-        ]);
+        ),
+        SizedBox(
+          height: 10,
+        )
+      ]),
+    );
   }
 
   Widget _categories() {
@@ -193,16 +202,23 @@ class _MainScreenState extends State<MainScreen>
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Container(
                     decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
                         borderRadius: BorderRadius.all(Radius.circular(15)),
-                        color: AppColors.gray),
+                        color: AppColors.grey,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.8),
+                            spreadRadius: 1.5,
+                            blurRadius: 3,
+                            offset: Offset(2, 3), // changes position of shadow
+                          )
+                        ]),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text("All"),
                     )),
               ),
             ),
-            Expanded(child: Container(height: 40, child: _horizontalList(5)))
+            Expanded(child: Container(height: 45, child: _horizontalList(5)))
           ],
         )
       ],
@@ -217,16 +233,25 @@ class _MainScreenState extends State<MainScreen>
                   onTap: () {
                     search = e["id"];
                     widget.controller.filterbySearch(search: e["id"]);
-                    // widget.controller.searched.value = e["category"];
+                    widget.controller.searched.value = e["category"];
                     setState(() {});
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.only(bottom: 6, left: 10, top: 4),
                     child: Container(
                         decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                            color: AppColors.gray),
+                          borderRadius: BorderRadius.all(Radius.circular(18)),
+                          color: AppColors.grey,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.8),
+                              spreadRadius: 1.5,
+                              blurRadius: 3,
+                              offset:
+                                  Offset(2, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(e["category"]),
@@ -236,11 +261,27 @@ class _MainScreenState extends State<MainScreen>
             .toList());
   }
 
+  Widget _buildProducts() {
+    return Column(children: [
+      SizedBox(
+        height: 10,
+      ),
+      Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Products',
+            style: TextStyle(
+                color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
+          )),
+    ]);
+  }
+
   Widget buildCarousel() {
     final List<String> imagelist = [
       'assets/pictures/ad1.jpg',
       'assets/pictures/greenad.jpg',
-      'assets/pictures/ad3.jpg'
+      'assets/pictures/ad3.jpg',
+      'assets/pictures/ad4.jpg',
     ];
 
     List<Widget> generateCarousel() {

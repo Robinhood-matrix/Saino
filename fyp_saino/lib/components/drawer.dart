@@ -23,8 +23,8 @@ class AppDrawer extends GetView<AuthController> {
                 const Align(
                   alignment: Alignment.topRight,
                   child: CircleAvatar(
-                    foregroundImage:
-                        AssetImage('assets/pictures/testBahadur.jpg'),
+                    foregroundImage: AssetImage('assets/pictures/photo.png'),
+                    backgroundColor: Colors.white,
                     radius: 50,
                   ),
                 ),
@@ -38,10 +38,6 @@ class AppDrawer extends GetView<AuthController> {
                 Align(
                   alignment: Alignment.topLeft + const Alignment(0, 0.5),
                   child: content(value: controller.user["name"]),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: content(value: controller.user["username"]),
                 ),
               ],
             ),
@@ -91,15 +87,7 @@ class AppDrawer extends GetView<AuthController> {
           ListTile(
             leading: Icon(Icons.logout),
             title: Text('Log Out'),
-            onTap: () async {
-              SharedPreferences pre = await SharedPreferences.getInstance();
-              await pre.clear();
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
-                  ),
-                  (route) => false);
-            },
+            onTap: () => controller.logout(),
           ),
         ],
       ),

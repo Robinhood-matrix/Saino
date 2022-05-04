@@ -1,7 +1,9 @@
-import 'package:fyp_saino/utilities/apis.dart';
+
 import 'package:fyp_saino/utilities/commons.dart';
 import 'package:fyp_saino/utilities/custom_http.dart';
 import 'package:get/get.dart';
+
+import '../utilities/apis.dart';
 
 class CategoriesController extends GetxController {
   final http = CustomHttp();
@@ -47,21 +49,6 @@ class CategoriesController extends GetxController {
           message:
               response != null ? response["message"] : 'Something Went Wrong!',
           isError: true);
-    }
-    deleteCategory({required String category, required String id}) async {
-      var response = await http
-          .post(url: editCategoryApi, body: {'category': category, 'id': id});
-      if (response != null && response['success']) {
-        categories.value = response['categories'];
-        Get.back();
-        showMessage(message: response['message'], isError: false);
-      } else {
-        showMessage(
-            message: response != null
-                ? response["message"]
-                : 'Something Went Wrong!',
-            isError: true);
-      }
     }
   }
 }

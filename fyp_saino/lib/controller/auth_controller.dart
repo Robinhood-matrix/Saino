@@ -1,10 +1,10 @@
 import 'dart:convert';
-
-import 'package:fyp_saino/utilities/apis.dart';
 import 'package:fyp_saino/utilities/commons.dart';
 import 'package:fyp_saino/utilities/custom_http.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../utilities/apis.dart';
 
 class AuthController extends GetxController {
   final http = CustomHttp();

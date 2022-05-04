@@ -38,10 +38,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                  Color.fromARGB(255, 66, 169, 71),
                   Color(0xFF4CAF50),
-                  Color(0xFF66BB6A),
-                  Color(0xFF81C784),
+                  Color.fromARGB(255, 105, 202, 96),
+                  Color.fromARGB(255, 117, 183, 120),
+                  Color.fromARGB(255, 149, 203, 152),
                 ])),
             child: Form(
               key: _formKey,
@@ -49,9 +49,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
+                    padding: EdgeInsets.all(5),
+                    child: AppBar(
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.center,
                       child: Text('Register ',
                           style: TextStyle(
                               fontSize: 30.0,
@@ -162,7 +169,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           child: const Text('Log In',
                               style: TextStyle(
                                   decoration: TextDecoration.underline,
-                                  color: Colors.blueAccent,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                   fontSize: 16)),
                         ),
                       ],

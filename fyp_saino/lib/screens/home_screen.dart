@@ -7,6 +7,7 @@ import 'package:fyp_saino/screens/MainScreen.dart';
 
 import 'package:fyp_saino/screens/account.dart';
 import 'package:fyp_saino/screens/cart_screen.dart';
+import 'package:fyp_saino/screens/wishlist_screen.dart';
 
 import 'package:fyp_saino/utilities/constants.dart';
 
@@ -27,22 +28,19 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF4CAF50),
-      ),
-      drawer: AppDrawer(),
       body: Navigator(
         key: _navKey,
         onGenerateRoute: (_) => MaterialPageRoute(
             builder: (_) => TabBarView(controller: _tabController, children: [
                   MainScreen(),
+                  WishlistScreen(),
                   CartScreen(),
                   Account(),
                 ])),
@@ -71,6 +69,13 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           BottomNavigationBarItem(
             icon: Icon(
+              Icons.shopping_cart,
+              color: Colors.green,
+            ),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
               Icons.person,
               color: Colors.green,
             ),
@@ -78,18 +83,18 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          FontAwesomeIcons.plus,
-          size: 30,
-        ),
-        onPressed: () {
-          Navigator.popAndPushNamed(context, '/admin');
-        },
-        tooltip: "Post an ad",
-        backgroundColor: kSecondaryColor,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(
+      //     FontAwesomeIcons.plus,
+      //     size: 30,
+      //   ),
+      //   onPressed: () {
+      //     Navigator.popAndPushNamed(context, '/admin');
+      //   },
+      //   tooltip: "Post an ad",
+      //   backgroundColor: kSecondaryColor,
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 

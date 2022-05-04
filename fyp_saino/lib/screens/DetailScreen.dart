@@ -3,8 +3,9 @@ import 'package:fyp_saino/components/custom_button.dart';
 import 'package:fyp_saino/model/product_model.dart';
 import 'package:fyp_saino/utilities/apis.dart';
 import 'package:fyp_saino/utilities/constants.dart';
-
 import 'package:get/get.dart';
+
+import '../components/add_to_cart_bottomsheet.dart';
 
 // ignore: must_be_immutable
 class DetailScreen extends StatefulWidget {
@@ -115,7 +116,11 @@ class _DetailScreenState extends State<DetailScreen> {
               )
             ],
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
+          Divider(
+            thickness: 2.5,
+          ),
+          SizedBox(height: 10),
           Text(
             "Product Description",
             style: TextStyle(
@@ -134,6 +139,34 @@ class _DetailScreenState extends State<DetailScreen> {
               fontWeight: FontWeight.w400,
               color: AppColors.black,
             ),
+          ),
+          SizedBox(height: 10),
+          Divider(
+            thickness: 2.5,
+          ),
+          SizedBox(height: 10),
+          Text(
+            "Seller Information",
+            style: TextStyle(
+              fontFamily: "Raleway",
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: AppColors.black,
+            ),
+          ),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              Text(
+                "Contact Info: 9814882548",
+                style: TextStyle(
+                  fontFamily: "Raleway",
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.black,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -186,7 +219,7 @@ class _DetailScreenState extends State<DetailScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-            colors: [Colors.white10, Colors.white],
+            colors: [Colors.white70, Colors.white],
             begin: const FractionalOffset(0.0, 0.0),
             end: const FractionalOffset(0.5, 0.0),
             stops: [0.0, 1.0],
@@ -196,13 +229,14 @@ class _DetailScreenState extends State<DetailScreen> {
         children: [
           Expanded(
               child: CustomButton(
-                  color: Colors.black,
-                  onTap: () {
-                    // Get.bottomSheet(AddToCartBottomSheet(
-                    //   item: widget.product,
-                    // ));
-                  },
-                  label: 'Add to cart')),
+            onTap: () {
+              Get.bottomSheet(AddToCartBottomSheet(
+                item: widget.product,
+              ));
+            },
+            label: 'Add to cart',
+            color: Colors.black,
+          )),
         ],
       ),
     );

@@ -34,12 +34,12 @@ class _BodyState extends State<Body> {
         height: Get.height,
         decoration: const BoxDecoration(
             gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
                 colors: [
-              Colors.white,
-              Colors.white,
-              Colors.green,
+              Color.fromARGB(255, 92, 228, 80),
+              Color.fromARGB(255, 160, 227, 162),
+              Color.fromARGB(240, 237, 241, 237),
             ])),
         child: SizedBox(
           width: double.infinity,

@@ -8,7 +8,7 @@ import 'package:fyp_saino/utilities/apis.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddProduct extends StatefulWidget {
+class AddProductUser extends StatefulWidget {
   final bool isEdit;
   final String? productId;
   final TextEditingController name;
@@ -16,7 +16,7 @@ class AddProduct extends StatefulWidget {
   final TextEditingController des;
   final String? productImage;
   final String categoryId;
-  const AddProduct({
+  const AddProductUser({
     Key? key,
     this.isEdit = false,
     this.productId,
@@ -28,10 +28,10 @@ class AddProduct extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AddProduct> createState() => _AddProductState();
+  State<AddProductUser> createState() => _AddProductState();
 }
 
-class _AddProductState extends State<AddProduct> {
+class _AddProductState extends State<AddProductUser> {
   var _image;
   ImagePicker picker = ImagePicker();
   XFile? image;

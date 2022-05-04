@@ -14,11 +14,14 @@ class Account extends GetView<AuthController> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
+              const SizedBox(
+                height: 100,
+              ),
               const Align(
-                alignment: Alignment.topCenter,
+                alignment: Alignment.center,
                 child: CircleAvatar(
-                  foregroundImage:
-                      AssetImage('assets/pictures/testBahadur.jpg'),
+                  backgroundColor: Colors.white,
+                  foregroundImage: AssetImage('assets/pictures/photo.png'),
                   radius: 90,
                 ),
               ),
@@ -31,10 +34,18 @@ class Account extends GetView<AuthController> {
 
               //logout
               SizedBox(height: 20),
-              CustomButton(onTap: () => controller.logout(), label: 'Logout',color: Colors.black,),
-              SizedBox(height: 20),
               CustomButton(
-                  onTap: () => Get.toNamed('my-orders'), label: 'View Orders', color:Colors.black),
+                onTap: () => controller.logout(),
+                label: 'Logout',
+                color: Colors.black,
+              ),
+              SizedBox(height: 20),
+
+              CustomButton(
+                onTap: () => Get.toNamed('my-orders'),
+                label: 'View Orders',
+                color: Colors.black,
+              ),
             ],
           ),
         ),
