@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_saino/controller/auth_controller.dart';
 import 'package:fyp_saino/screens/login_screen.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class AppDrawer extends GetView<AuthController> {
   const AppDrawer({Key? key}) : super(key: key);
@@ -41,48 +41,6 @@ class AppDrawer extends GetView<AuthController> {
                 ),
               ],
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(left: 10),
-            child: const Text(
-              "Browse By Category",
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-          ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.leaf),
-            title: Text('Vegetables'),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/vegetables');
-            },
-          ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.appleWhole),
-            title: Text('Fruits'),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/fruits');
-            },
-          ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.wineBottle),
-            title: Text('Dairy'),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/dairy');
-            },
-          ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.breadSlice),
-            title: Text('Grains'),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/grains');
-            },
-          ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.cow),
-            title: Text('LiveStocks'),
-            onTap: () {
-              Navigator.popAndPushNamed(context, '/livestocks');
-            },
           ),
           ListTile(
             leading: Icon(Icons.logout),

@@ -6,6 +6,7 @@ import 'package:fyp_saino/utilities/constants.dart';
 import 'package:get/get.dart';
 
 import '../components/add_to_cart_bottomsheet.dart';
+import '../controller/auth_controller.dart';
 
 // ignore: must_be_immutable
 class DetailScreen extends StatefulWidget {
@@ -154,63 +155,8 @@ class _DetailScreenState extends State<DetailScreen> {
               color: AppColors.black,
             ),
           ),
-          SizedBox(height: 10),
-          Row(
-            children: [
-              Text(
-                "Contact Info: 9814882548",
-                style: TextStyle(
-                  fontFamily: "Raleway",
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.black,
-                ),
-              ),
-            ],
-          ),
         ],
       ),
-    );
-  }
-
-  Widget _priceCart() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
-            color: Colors.grey,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Icon(
-                Icons.remove,
-                color: AppColors.black,
-                size: 20,
-              ),
-              SizedBox(width: 15),
-              Text(
-                "5",
-                style: TextStyle(
-                    color: AppColors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400),
-              ),
-              SizedBox(width: 15),
-              Icon(
-                Icons.add,
-                color: AppColors.black,
-                size: 20,
-              )
-            ],
-          ),
-        ),
-      ],
     );
   }
 

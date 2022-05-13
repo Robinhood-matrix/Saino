@@ -42,7 +42,7 @@ class Account extends GetView<AuthController> {
               SizedBox(height: 20),
 
               CustomButton(
-                onTap: () => Get.toNamed('my-orders'),
+                onTap: () => Get.toNamed('orders'),
                 label: 'View Orders',
                 color: Colors.black,
               ),

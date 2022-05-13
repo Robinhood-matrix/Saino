@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:fyp_saino/components/cart_bottomsheet.dart';
+import 'package:fyp_saino/components/payment_bottomsheet.dart';
 import 'package:fyp_saino/components/custom_button.dart';
 import 'package:fyp_saino/controller/cart_controller.dart';
 import 'package:fyp_saino/controller/order_controller.dart';
@@ -26,40 +26,50 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            title: Text(
+              'Cart',
+              style: TextStyle(
+                  color: Colors.grey[700],
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24),
+            ),
+            backgroundColor: Colors.transparent,
+          ),
           body: Column(
-        children: [
-          Expanded(
-            
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Obx(() => Column(
-                    children: cartController.cart.values.map((item) {
-                      return menuItemCard(jsonDecode(item));
-                    }).toList(),
-                  )),
-            ),
-          ),
-          Container(
-            color: AppColors.grey,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Obx(() => cartController.cartTotal.value != 0.0
-                  ? CustomButton(
-                      onTap: () {
-                        Get.bottomSheet(CartBottomSheet());
-                      },
-                      label:
-                          'Buy Now: \Rs ' + cartController.cartTotal.toString(),
-                      color: Colors.green,
-                    )
-                  : SizedBox()),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          )
-        ],
-      )),
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Obx(() => Column(
+                        children: cartController.cart.values.map((item) {
+                          return menuItemCard(jsonDecode(item));
+                        }).toList(),
+                      )),
+                ),
+              ),
+              Container(
+                color: AppColors.grey,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Obx(() => cartController.cartTotal.value != 0.0
+                      ? CustomButton(
+                          onTap: () {
+                            Get.bottomSheet(CartBottomSheet());
+                          },
+                          label: 'Buy Now: \Rs ' +
+                              cartController.cartTotal.toString(),
+                          color: Colors.green,
+                        )
+                      : SizedBox()),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              )
+            ],
+          )),
     );
   }
 

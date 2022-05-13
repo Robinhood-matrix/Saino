@@ -11,26 +11,17 @@ import 'package:fyp_saino/utilities/commons.dart';
 
 import 'package:get/get.dart';
 
-class AdminHome extends StatelessWidget {
+class AddHome extends StatelessWidget {
   final authController = Get.find<AuthController>();
   final controller = Get.find<CategoriesController>();
-  AdminHome({Key? key}) : super(key: key);
+  AddHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        icon: Icon(Icons.add),
-        backgroundColor: Color.fromARGB(170, 74, 33, 7),
-        label: Text('Add Category'),
-        onPressed: () {
-          Get.bottomSheet(
-              AddCategory(categoryController: TextEditingController()));
-        },
-      ),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(170, 74, 33, 7),
-        title: Text('Admin Panel'),
+        backgroundColor: Colors.green,
+        title: Text('Add Products'),
         actions: [
           Align(
             alignment: Alignment.bottomRight,
@@ -52,22 +43,10 @@ class AdminHome extends StatelessWidget {
           ),
         ],
       ),
-      drawer: AdminDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  cardTile(
-                      label: 'View Orders',
-                      icon: Icon(FontAwesomeIcons.linesLeaning),
-                      onTap: () => Get.to(AdminOrders()))
-                ],
-              ),
-            ),
             Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
@@ -151,35 +130,7 @@ class AdminHome extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(category['category']),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {
-                      Get.bottomSheet(AddCategory(
-                        isEdit: true,
-                        categoryController: TextEditingController(
-                          text: category['category'],
-                        ),
-                        id: category['id'],
-                      ));
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      //controller.deleteCategory(category['id']);
-                    },
-                  ),
-                ],
+                child: Text(category['category']),
               ),
             ],
           ),

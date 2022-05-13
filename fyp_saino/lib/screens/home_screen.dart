@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_saino/components/drawer.dart';
 import 'package:fyp_saino/screens/MainScreen.dart';
 
-import 'package:fyp_saino/screens/account.dart';
+import 'package:fyp_saino/screens/account_screen.dart';
 import 'package:fyp_saino/screens/cart_screen.dart';
 import 'package:fyp_saino/screens/wishlist_screen.dart';
 
@@ -83,18 +83,18 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   child: Icon(
-      //     FontAwesomeIcons.plus,
-      //     size: 30,
-      //   ),
-      //   onPressed: () {
-      //     Navigator.popAndPushNamed(context, '/admin');
-      //   },
-      //   tooltip: "Post an ad",
-      //   backgroundColor: kSecondaryColor,
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          FontAwesomeIcons.plus,
+          size: 30,
+        ),
+        onPressed: () {
+          Navigator.popAndPushNamed(context, '/user-add');
+        },
+        tooltip: "Post an ad",
+        backgroundColor: kSecondaryColor,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 

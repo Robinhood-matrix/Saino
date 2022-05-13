@@ -5,9 +5,10 @@ import 'package:fyp_saino/controller/auth_controller.dart';
 import 'package:fyp_saino/controller/cart_controller.dart';
 import 'package:fyp_saino/controller/categories_controller.dart';
 import 'package:fyp_saino/controller/products_controller.dart';
+import 'package:fyp_saino/screens/user/add_home.dart';
 import 'package:fyp_saino/screens/home_screen.dart';
 import 'package:fyp_saino/screens/login_screen.dart';
-import 'package:fyp_saino/screens/my_orders.dart';
+import 'package:fyp_saino/screens/orders.dart';
 import 'package:fyp_saino/screens/registration_screen.dart';
 import 'package:fyp_saino/screens/splash/splash_screen.dart';
 import 'package:get/get.dart';
@@ -60,12 +61,16 @@ Future<void> main() async {
         page: () => AdminHome(),
       ),
       GetPage(
-        name: '/my-orders',
+        name: '/orders',
         page: () => MyOrders(),
       ),
       GetPage(
         name: '/product-screen',
         page: () => ProductScreen(),
+      ),
+      GetPage(
+        name: '/user-add',
+        page: () => AddHome(),
       ),
     ],
   ));

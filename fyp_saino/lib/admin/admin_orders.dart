@@ -17,7 +17,7 @@ class AdminOrders extends GetView<OrderController> {
       body: Column(
         children: [
           SizedBox(
-            height: 10,
+            height: 20,
           ),
           GetBuilder<OrderController>(
             init: OrderController(),
@@ -31,7 +31,7 @@ class AdminOrders extends GetView<OrderController> {
                     clipBehavior: Clip.none,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(15.0),
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -197,8 +197,8 @@ class AdminOrders extends GetView<OrderController> {
                         ),
                       ),
                       Positioned(
-                          top: -8,
-                          right: 20,
+                          right: 25,
+                          bottom: 100,
                           child: CircleAvatar(
                             child: IconButton(
                               icon: const Icon(
@@ -223,7 +223,9 @@ class AdminOrders extends GetView<OrderController> {
                                         ),
                                         const SizedBox(height: 10),
                                         //delivered
-                                        ElevatedButton(
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                              backgroundColor: Colors.green),
                                           onPressed: () {
                                             orderController.changeStatus(
                                                 orderId: orderController

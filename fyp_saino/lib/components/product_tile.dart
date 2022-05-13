@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_saino/components/add_to_cart_bottomsheet.dart';
 import 'package:fyp_saino/controller/auth_controller.dart';
 import 'package:fyp_saino/model/product_model.dart';
-import 'package:fyp_saino/screens/DetailScreen.dart';
+import 'package:fyp_saino/screens/ProductDetailsScreen.dart';
 import 'package:fyp_saino/utilities/apis.dart';
 import 'package:fyp_saino/utilities/constants.dart';
 

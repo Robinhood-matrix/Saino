@@ -16,6 +16,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
   final cartController = Get.find<CartController>();
   final orderController = Get.find<OrderController>();
   String selectedPayment = '1';
+  bool group = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +50,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                     value: '1',
                   ),
                   paymentSelector(
-                      value: '2',
-                      type: 'COD',
-                      image: "assets/pictures/cod.png"),
+                      value: '2', type: 'COD', image: "assets/logos/COD.png"),
                 ],
               ),
               Padding(
@@ -149,7 +148,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                   padding: const EdgeInsets.all(10.0),
                   child: Image.asset(
                     image,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                     width: 90,
                     height: 50,
                   ),
