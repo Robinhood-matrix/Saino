@@ -1,0 +1,54 @@
+<?php
+ include 'DatabaseConfig.php';
+ include 'functions.php';
+  // Creating MySQL Connection.
+  $con = mysqli_connect($HostName,$HostUser,$HostPass,$DatabaseName);
+  if (isset($_POST['name']) &&
+   isset($_POST['categoryId']) &&
+   isset($_POST['description']) &&
+   isset($_FILES['image']) && 
+   isset($_POST['price'])) {
+      $name=$_POST['name'];
+      $categoryId=$_POST['categoryId'];
+      $description=$_POST['description'];
+      $price=$_POST['price'];
+      //getimage
+      $image = $_FILES['image']['name'];
+      $image_tmp = $_FILES['image']['tmp_name'];
+      $image_size = $_FILES['image']['size'];
+      $image_ext = pathinfo($image, PATHINFO_EXTENSION);
+      $image_path = "images/".$image;
+
+      //upload image
+      if ($image_size < 5000000) {
+          if ($image_ext == "jpg" || $image_ext == "png" || $image_ext == "jpeg") {
+              if (move_uploaded_file($image_tmp, $image_path)) {
+                  //inserting data into database
+                  $sql = "INSERT INTO products (name, category_id, description, price, image) VALUES ('$name', '$categoryId', '$description', '$price', '$image_path')";
+                  $query = mysqli_query($con, $sql);
+                  if ($query) {
+                     getProducts("Product added successfully.");
+                  } else {
+                      $data=['success'=>false, 'message'=>'Something went wrong.'];
+                      echo json_encode($data);
+                  }
+              } else {
+                  $data=['success'=>false, 'message'=>'Something went wrong.'];
+                  echo json_encode($data);
+              }
+          } else {
+              $data=['success'=>false, 'message'=>'Image must be jpg, png or jpeg.'];
+              echo json_encode($data);
+          }
+      } else {
+          $data=['success'=>false, 'message'=>'Image size must be less than 5MB.'];
+          echo json_encode($data);
+      }
+
+  }else{
+      $data=['success'=>false, 'message'=>'Name,price, image, and parent id is required.'];
+      echo json_encode($data);
+  }
+
+ ?>
+
