@@ -88,8 +88,10 @@ class _WalletPaymentState extends State<WalletPayment> {
                             isPhoneNumber: true,
                             controller: _mobileController,
                             hintText: 'Mobile Number',
-                            decoration: kBoxDecorationStyle,
-                            icon: Icon(Icons.mobile_screen_share),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(170, 56, 3, 74),
+                                borderRadius: BorderRadius.circular(14)),
+                            icon: Icon(Icons.phone),
                           ),
                           const SizedBox(height: 24),
                           CustomTextField(
@@ -97,8 +99,10 @@ class _WalletPaymentState extends State<WalletPayment> {
                             obscureText: true,
                             controller: _pinController,
                             hintText: 'PIN',
-                            decoration: kBoxDecorationStyle,
-                            icon: Icon(Icons.phone),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(170, 56, 3, 74),
+                                borderRadius: BorderRadius.circular(14)),
+                            icon: Icon(Icons.password),
                           ),
                           const SizedBox(height: 24),
                           isLoading
@@ -106,7 +110,7 @@ class _WalletPaymentState extends State<WalletPayment> {
                               : CustomButton(
                                   onTap: () => onPayment(),
                                   label: 'Proceed',
-                                  color: Colors.green,
+                                  color: Color.fromARGB(170, 56, 3, 74),
                                 )
                         ],
                       ),

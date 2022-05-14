@@ -50,7 +50,9 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                     value: '1',
                   ),
                   paymentSelector(
-                      value: '2', type: 'COD', image: "assets/logos/COD.png"),
+                      value: '2',
+                      type: 'Cash On \n Delivery',
+                      image: "assets/logos/COD.png"),
                 ],
               ),
               Padding(
