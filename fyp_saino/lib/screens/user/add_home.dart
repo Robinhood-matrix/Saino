@@ -20,6 +20,13 @@ class AddHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          iconSize: 20.0,
+          onPressed: () {
+            Get.toNamed('/home');
+          },
+        ),
         backgroundColor: Colors.green,
         title: Text('Add Products'),
         actions: [

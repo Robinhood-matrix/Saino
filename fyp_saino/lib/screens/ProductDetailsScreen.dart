@@ -146,15 +146,6 @@ class _DetailScreenState extends State<DetailScreen> {
             thickness: 2.5,
           ),
           SizedBox(height: 10),
-          Text(
-            "Seller Information",
-            style: TextStyle(
-              fontFamily: "Raleway",
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: AppColors.black,
-            ),
-          ),
         ],
       ),
     );

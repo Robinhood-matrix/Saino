@@ -124,7 +124,7 @@ class _AddProductState extends State<AddProduct> {
                                         ),
                                         Expanded(
                                           child: InkWell(
-                                            onTap: () => onPickFromGallery(),
+                                            onTap: () => onPickFromCamera(),
                                             child: pickerWidget(
                                                 title: 'Camera',
                                                 IconData: Icons.camera_alt),
